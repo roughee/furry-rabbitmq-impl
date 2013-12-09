@@ -38,10 +38,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RabbitMQ.Client">
-      <HintPath>..\..\..\..\..\..\Desktop\rabbitmq-dotnet-client-3.2.1-dotnet-3.0\bin\RabbitMQ.Client.dll</HintPath>
+      <HintPath>..\..\packages\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.ServiceModel">
-      <HintPath>..\..\..\..\..\..\Desktop\rabbitmq-dotnet-client-3.2.1-dotnet-3.0\bin\RabbitMQ.ServiceModel.dll</HintPath>
+      <HintPath>..\..\packages\RabbitMQ.ServiceModel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,10 +56,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\Common.csproj">
-      <Project>{A6734BAB-27D6-437A-88E5-75DA057A92CF}</Project>
+    <ProjectReference Include="..\..\Common\Common.csproj">
+      <Project>{CB14AB71-11F1-4629-A449-BA069164A95A}</Project>
       <Name>Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
