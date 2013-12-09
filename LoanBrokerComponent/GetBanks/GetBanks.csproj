@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>0c0b8e99-086c-4b59-9731-87e2b399661d</ProjectGuid>
+    <ProjectGuid>{74ED4FE5-8CA9-4283-A91C-F9D7DCFFC364}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GetBanks</RootNamespace>

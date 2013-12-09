@@ -30,7 +30,7 @@ namespace GetCreditScore
             BasicDeliverEventArgs deliveryArgs;
             bool gotMessage = subscription.Next(250, out deliveryArgs);
 
-            var message = deliveryArgs.Body.ToLoanRequestMessage();
+            var message = deliveryArgs.Body.ToRequestMessage(typeof(LoanRequestMessage));
             subscription.Ack(deliveryArgs);
         }
     }

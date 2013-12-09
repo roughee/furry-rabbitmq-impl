@@ -24,6 +24,12 @@ namespace Common
         public int CreditScore { get; set; }
     }
 
+    [Serializable]
+    public class BanksListMessage : CreditScoreMessage
+    {
+        public List<String> BanksList { get; set; }
+    }
+
     public static class Extensions
     {
         public static byte[] ToByteArray(this Object thisObject)
@@ -35,7 +41,7 @@ namespace Common
             return memoryStream.ToArray();
         }
 
-        public static Object ToLoanRequestMessage(this byte[] byteArray)
+        public static Object ToRequestMessage(this byte[] byteArray, Type type)
         {
             var binaryFormatter = new BinaryFormatter();
             var memoryStream = new MemoryStream();
@@ -43,7 +49,20 @@ namespace Common
             memoryStream.Write(byteArray, 0, byteArray.Length);
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            var obj = (Object)binaryFormatter.Deserialize(memoryStream);
+            var obj = binaryFormatter.Deserialize(memoryStream);
+
+            if (type == typeof (LoanRequestMessage))
+            {
+                return obj as LoanRequestMessage; 
+            }
+            if (type == typeof(CreditScoreMessage))
+            {
+                return obj as CreditScoreMessage;
+            }
+            if (type == typeof(BanksListMessage))
+            {
+                return obj as BanksListMessage;
+            }
 
             return obj;
         }
