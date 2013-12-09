@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetCreditScore", "GetCreditScore\GetCreditScore.csproj", "{5FAE1246-E0F6-40A0-9DBC-1FFE15F0D7E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{CB14AB71-11F1-4629-A449-BA069164A95A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5FAE1246-E0F6-40A0-9DBC-1FFE15F0D7E3}.Debug|x86.ActiveCfg = Debug|x86
+		{5FAE1246-E0F6-40A0-9DBC-1FFE15F0D7E3}.Debug|x86.Build.0 = Debug|x86
+		{5FAE1246-E0F6-40A0-9DBC-1FFE15F0D7E3}.Release|x86.ActiveCfg = Release|x86
+		{5FAE1246-E0F6-40A0-9DBC-1FFE15F0D7E3}.Release|x86.Build.0 = Release|x86
+		{CB14AB71-11F1-4629-A449-BA069164A95A}.Debug|x86.ActiveCfg = Debug|x86
+		{CB14AB71-11F1-4629-A449-BA069164A95A}.Debug|x86.Build.0 = Debug|x86
+		{CB14AB71-11F1-4629-A449-BA069164A95A}.Release|x86.ActiveCfg = Release|x86
+		{CB14AB71-11F1-4629-A449-BA069164A95A}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
