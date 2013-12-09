@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetCreditScore", "GetCredit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{CB14AB71-11F1-4629-A449-BA069164A95A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanRequestCreator", "LoanRequestCreator\LoanRequestCreator\LoanRequestCreator.csproj", "{396E1A1B-40AD-44ED-AFF9-1275C93C9371}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,6 +21,10 @@ Global
 		{CB14AB71-11F1-4629-A449-BA069164A95A}.Debug|x86.Build.0 = Debug|x86
 		{CB14AB71-11F1-4629-A449-BA069164A95A}.Release|x86.ActiveCfg = Release|x86
 		{CB14AB71-11F1-4629-A449-BA069164A95A}.Release|x86.Build.0 = Release|x86
+		{396E1A1B-40AD-44ED-AFF9-1275C93C9371}.Debug|x86.ActiveCfg = Debug|x86
+		{396E1A1B-40AD-44ED-AFF9-1275C93C9371}.Debug|x86.Build.0 = Debug|x86
+		{396E1A1B-40AD-44ED-AFF9-1275C93C9371}.Release|x86.ActiveCfg = Release|x86
+		{396E1A1B-40AD-44ED-AFF9-1275C93C9371}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
