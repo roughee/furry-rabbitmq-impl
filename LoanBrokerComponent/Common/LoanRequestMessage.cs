@@ -18,9 +18,15 @@ namespace Common
         public int Duration { get; set; }
     }
 
+    [Serializable]
+    public class CreditScoreMessage : LoanRequestMessage
+    {
+        public int CreditScore { get; set; }
+    }
+
     public static class Extensions
     {
-        public static byte[] ToByteArray(this LoanRequestMessage thisObject)
+        public static byte[] ToByteArray(this Object thisObject)
         {
             var binaryFormatter = new BinaryFormatter();
             var memoryStream = new MemoryStream();
@@ -29,7 +35,7 @@ namespace Common
             return memoryStream.ToArray();
         }
 
-        public static LoanRequestMessage ToLoanRequestMessage(this byte[] byteArray)
+        public static Object ToLoanRequestMessage(this byte[] byteArray)
         {
             var binaryFormatter = new BinaryFormatter();
             var memoryStream = new MemoryStream();
@@ -39,7 +45,7 @@ namespace Common
 
             var obj = (Object)binaryFormatter.Deserialize(memoryStream);
 
-            return obj as LoanRequestMessage;
+            return obj;
         }
     }
 }
