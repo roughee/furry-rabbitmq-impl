@@ -38,11 +38,13 @@
     <StartupObject>GetCreditScore.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RabbitMQ.Client">
-      <HintPath>..\..\..\..\..\Desktop\rabbitmq-dotnet-client-3.2.1-dotnet-3.0\bin\RabbitMQ.Client.dll</HintPath>
+    <Reference Include="RabbitMQ.Client, Version=3.2.1.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\RabbitMQ.Client.dll</HintPath>
     </Reference>
-    <Reference Include="RabbitMQ.ServiceModel">
-      <HintPath>..\..\..\..\..\Desktop\rabbitmq-dotnet-client-3.2.1-dotnet-3.0\bin\RabbitMQ.ServiceModel.dll</HintPath>
+    <Reference Include="RabbitMQ.ServiceModel, Version=3.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\RabbitMQ.ServiceModel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
