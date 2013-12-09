@@ -1,0 +1,2 @@
+furry-rabbitmq-impl
+===================
