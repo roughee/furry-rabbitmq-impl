@@ -41,7 +41,7 @@ namespace Common
             return memoryStream.ToArray();
         }
 
-        public static Object ToRequestMessage(this byte[] byteArray, Type type)
+        public static T ToRequestMessage<T>(this byte[] byteArray) where T : class
         {
             var binaryFormatter = new BinaryFormatter();
             var memoryStream = new MemoryStream();
@@ -51,20 +51,7 @@ namespace Common
 
             var obj = binaryFormatter.Deserialize(memoryStream);
 
-            if (type == typeof (LoanRequestMessage))
-            {
-                return obj as LoanRequestMessage; 
-            }
-            if (type == typeof(CreditScoreMessage))
-            {
-                return obj as CreditScoreMessage;
-            }
-            if (type == typeof(BanksListMessage))
-            {
-                return obj as BanksListMessage;
-            }
-
-            return obj;
+            return obj as T;
         }
     }
 }

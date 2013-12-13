@@ -6,6 +6,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.MessagePatterns;
 using RabbitMQ.Client.Events;
 using Common;
+using GetCreditScore.CreditBureau;
 
 namespace GetCreditScore
 {
@@ -25,13 +26,26 @@ namespace GetCreditScore
             var channel = connection.CreateModel();               
             channel.QueueDeclare("LoanRequests", true, false, false, null);
 
-            var subscription = new Subscription(channel, "LoanRequests", false);
+            var channel2 = connection.CreateModel();
+            channel2.QueueDeclare("LoanRequestsWithCreditScore", true, false, false, null);
 
-            BasicDeliverEventArgs deliveryArgs;
-            bool gotMessage = subscription.Next(250, out deliveryArgs);
+            var consumer = new EventingBasicConsumer();
+            consumer.Model = channel;
+            consumer.Received += (s, e) =>
+                {
+                    var message = e.Body.ToRequestMessage<LoanRequestMessage>();
 
-            var message = deliveryArgs.Body.ToRequestMessage(typeof(LoanRequestMessage));
-            subscription.Ack(deliveryArgs);
+                    var creditScoreService = new CreditScoreServiceClient();
+                    var creditScore = creditScoreService.creditScore(message.Ssn.ToString());
+                    channel2.BasicPublish("", "LoanRequestsWithCreditScore", null, new CreditScoreMessage
+                    {
+                        CreditScore = creditScore,
+                        Amount = message.Amount,
+                        Duration = message.Duration,
+                        Ssn = message.Duration
+                    }.ToByteArray());
+                };
+            channel.BasicConsume("LoanRequests", true, consumer);
         }
     }
 }

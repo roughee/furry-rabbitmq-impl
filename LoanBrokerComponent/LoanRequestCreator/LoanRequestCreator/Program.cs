@@ -33,6 +33,8 @@ namespace LoanRequestCreator
                 var message = new LoanRequestMessage { Amount = i * 10000, Duration = i * 10, Ssn = 12312312 };
                 channel.BasicPublish("", "LoanRequests", null, message.ToByteArray()); 
             }
+
+            Environment.Exit(0);
         }
     }
 }
