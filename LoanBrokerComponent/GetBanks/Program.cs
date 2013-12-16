@@ -27,14 +27,28 @@ namespace GetBanks
 
             var subscription = new Subscription(channel, "LoanRequestsWithCreditScore", false);
 
-            BasicDeliverEventArgs deliveryArgs;
-            bool gotMessage = subscription.Next(250, out deliveryArgs);
+            var channel2 = connection.CreateModel();
+            channel2.QueueDeclare("BanksList", true, false, false, null);
 
-            var message = deliveryArgs.Body.ToRequestMessage<CreditScoreMessage>();
-            subscription.Ack(deliveryArgs);
+            var consumer = new EventingBasicConsumer();
+            consumer.Model = channel;
+            consumer.Received += (s, e) =>
+            {
+                var message = e.Body.ToRequestMessage<CreditScoreMessage>();
 
-            var ruleChecker = new RuleChecker();
-            var banksList = ruleChecker.GetBankList(message.CreditScore);
+                var ruleChecker = new RuleChecker();
+                var banksList = ruleChecker.GetBankList(message.CreditScore);
+
+                channel2.BasicPublish("", "BanksList", null, new BanksListMessage
+                {
+                    BanksList = banksList,
+                    CreditScore = message.CreditScore,
+                    Amount = message.Amount,
+                    Duration = message.Duration,
+                    Ssn = message.Duration
+                }.ToByteArray());
+            };
+            channel.BasicConsume("LoanRequestsWithCreditScore", true, consumer);
         }
     }
 }
