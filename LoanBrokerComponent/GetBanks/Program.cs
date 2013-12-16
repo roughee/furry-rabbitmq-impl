@@ -23,14 +23,14 @@ namespace GetBanks
             var connection = factory.CreateConnection();
 
             var channel = connection.CreateModel();
-            channel.QueueDeclare("GetBanks-RecipList-Tunnel", true, false, false, null);
+            channel.QueueDeclare("LoanRequestsWithCreditScore", true, false, false, null);
 
-            var subscription = new Subscription(channel, "Credit-GetBanks-Tunnel", false);
+            var subscription = new Subscription(channel, "LoanRequestsWithCreditScore", false);
 
             BasicDeliverEventArgs deliveryArgs;
             bool gotMessage = subscription.Next(250, out deliveryArgs);
 
-            var message = (CreditScoreMessage) deliveryArgs.Body.ToRequestMessage(typeof(CreditScoreMessage));
+            var message = deliveryArgs.Body.ToRequestMessage<CreditScoreMessage>();
             subscription.Ack(deliveryArgs);
 
             var ruleChecker = new RuleChecker();
