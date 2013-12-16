@@ -25,8 +25,6 @@ namespace GetBanks
             var channel = connection.CreateModel();
             channel.QueueDeclare("LoanRequestsWithCreditScore", true, false, false, null);
 
-            var subscription = new Subscription(channel, "LoanRequestsWithCreditScore", false);
-
             var channel2 = connection.CreateModel();
             channel2.QueueDeclare("BanksList", true, false, false, null);
 
