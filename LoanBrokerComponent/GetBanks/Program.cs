@@ -34,6 +34,8 @@ namespace GetBanks
             {
                 var message = e.Body.ToRequestMessage<CreditScoreMessage>();
 
+                Console.Out.WriteLine("GetBanks: Message Received: " + message.ToString());
+
                 var ruleChecker = new RuleChecker();
                 var banksList = ruleChecker.GetBankList(message.CreditScore);
 
