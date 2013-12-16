@@ -25,6 +25,7 @@ namespace GetCreditScore
 
             var channel = connection.CreateModel();               
             channel.QueueDeclare("LoanRequests", true, false, false, null);
+            channel.QueueDeclare("Credit-GetBanks-Tunnel", true, false, false, null);
 
             var channel2 = connection.CreateModel();
             channel2.QueueDeclare("LoanRequestsWithCreditScore", true, false, false, null);
