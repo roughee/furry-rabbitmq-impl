@@ -29,7 +29,7 @@ namespace Translator1
             };
 
             var connection = factory.CreateConnection();
-            var connection2 = factory.CreateConnection();
+            var connection2 = factory2.CreateConnection();
 
             var channel = connection.CreateModel();
             channel.QueueDeclare("Bank1Requests", true, false, false, null);
