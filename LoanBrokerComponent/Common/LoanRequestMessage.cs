@@ -32,6 +32,15 @@ namespace Common
 
     public static class Extensions
     {
+        public static byte[] ToByteArray(this string thisObject)
+        {
+            var binaryFormatter = new BinaryFormatter();
+            var memoryStream = new MemoryStream();
+            binaryFormatter.Serialize(memoryStream, thisObject);
+
+            return memoryStream.ToArray();
+        }
+
         public static byte[] ToByteArray(this Object thisObject)
         {
             var binaryFormatter = new BinaryFormatter();

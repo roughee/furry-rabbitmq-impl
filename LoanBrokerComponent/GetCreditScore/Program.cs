@@ -35,8 +35,10 @@ namespace GetCreditScore
                 {
                     var message = e.Body.ToRequestMessage<LoanRequestMessage>();
 
+                    Console.WriteLine("received message with SSN " + message.Ssn);
                     var creditScoreService = new CreditScoreServiceClient();
                     var creditScore = creditScoreService.creditScore(message.Ssn.ToString());
+                    Console.WriteLine("Credit Score: " + creditScore);
                     channel2.BasicPublish("", "LoanRequestsWithCreditScore", null, new CreditScoreMessage
                     {
                         CreditScore = creditScore,
