@@ -26,10 +26,10 @@ namespace BankService
         [OperationContract, WebInvoke(Method = "GET", UriTemplate = "LoanResponse?ssn={ssn}&creditScore={creditScore}&loanAmount={loanAmount}&loanDuration={loanDuration}")]
         public InterestRate LoanResponse()
         {
-            var ssn = Convert.ToInt16(Context.Request["ssn"]);
-            var creditScore = Convert.ToInt16(Context.Request["ssn"]);
-            var loanAmount = Convert.ToInt16(Context.Request["loanAmount"]);
-            var loadDuration = Convert.ToInt16(Context.Request["loanDuration"]);
+            var ssn = Convert.ToString(Context.Request["ssn"]);
+            var creditScore = Convert.ToInt32(Context.Request["ssn"]);
+            var loanAmount = Convert.ToInt32(Context.Request["loanAmount"]);
+            var loadDuration = Convert.ToInt32(Context.Request["loanDuration"]);
 
             var loanCalculator = new LoanCalculator();
 
