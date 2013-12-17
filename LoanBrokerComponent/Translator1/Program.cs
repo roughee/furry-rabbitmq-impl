@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Common;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -29,13 +30,13 @@ namespace Translator1
             };
 
             var connection = factory.CreateConnection();
-            var connection2 = factory2.CreateConnection();
+            var cphConnection = factory2.CreateConnection();
 
             var channel = connection.CreateModel();
             channel.QueueDeclare("Bank1Requests", true, false, false, null);
 
-            var channel2 = connection2.CreateModel();
-            channel2.QueueDeclare("cphbusiness.bankXML", false, false, false, null);
+            var cphExchange = cphConnection.CreateModel();
+            cphExchange.ExchangeDeclare("cphbusiness.bankXML", "fanout");
 
             var consumer = new EventingBasicConsumer();
             consumer.Model = channel;
@@ -43,14 +44,28 @@ namespace Translator1
             {
                 var msg = e.Body.ToRequestMessage<CreditScoreMessage>();
 
-                channel2.BasicPublish("cphbusiness.bankXML", "cphbusiness.bankXML", new BasicProperties { Headers = new Dictionary<string, object> { { "reply-to", "channel78"} } }, string.Format(@"<LoanRequest>
+                var properties = new BasicProperties();
+                properties.ReplyTo = "channel78";
+
+                cphExchange.BasicPublish("cphbusiness.bankXML", "cphbusiness.bankXML", properties, string.Format(@"<LoanRequest>
 <ssn>{0}</ssn>
 <creditScore>{1}</creditScore>
 <loanAmount>{2}</loanAmount>
 <loanDuration>{3}</loanDuration>
-</LoanRequest>", msg.Ssn, msg.CreditScore, msg.Amount, new DateTime(1970).AddDays(msg.Duration).ToString("yyyy-MM-dd " + "00:00:00.0 CET")).ToByteArray());
+</LoanRequest>", msg.Ssn, msg.CreditScore, msg.Amount, new DateTime(1970, 1, 1).AddDays(msg.Duration).ToString("yyyy-MM-dd " + "00:00:00.0 CET")).ToByteArray());
             };
             channel.BasicConsume("Bank1Requests", true, consumer);
+
+            var cphConsumer = new EventingBasicConsumer();
+            var cphChannel = cphConnection.CreateModel();
+            cphChannel.QueueDeclare("channel78", true, false, false, null);
+            cphConsumer.Model = cphChannel;
+
+            cphConsumer.Received += (s, e) =>
+                {
+                    int i = 0;
+                };
+            cphChannel.BasicConsume("channel78", true, cphConsumer);
         }
     }
 }
