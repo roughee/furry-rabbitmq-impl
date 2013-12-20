@@ -37,22 +37,22 @@ namespace BankService
 
             if (!ssnCprMatch.Success)
             {
-                error.ErrorMessage = string.Format("Invalid ssn : {0}", ssn);
+                error.ErrorMessage = string.Format("Invalid ssn : {0}; ", ssn);
             }
 
             if (creditScore < 300)
             {
-                error.ErrorMessage = string.Format("Credit score of {0} is too low", creditScore);
+                error.ErrorMessage = string.Format("Credit score of {0} is too low; ", creditScore);
             }
 
             if (loanAmount >= 5000)
             {
-                error.ErrorMessage = string.Format("Minimum loan amount is 5000, you wanted to loan out : {0}", loanAmount);
+                error.ErrorMessage = string.Format("Minimum loan amount is 5000, you wanted to loan out : {0}; ", loanAmount);
             }
 
             if (loanDuration < 30)
             {
-                error.ErrorMessage = string.Format("Minimum loan duration is 30 days, your duration was : {0}", loanDuration);
+                error.ErrorMessage = string.Format("Minimum loan duration is 30 days, your duration was : {0}; ", loanDuration);
             }
 
             if (error.ErrorMessage.Length > 0)
