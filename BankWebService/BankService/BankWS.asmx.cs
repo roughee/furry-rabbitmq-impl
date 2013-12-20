@@ -33,35 +33,36 @@ namespace BankService
             var loanDuration = Convert.ToInt32(Context.Request["loanDuration"]);
 
             var ssnCprMatch = Regex.Match(ssn, @"^(0[1-9]|[12]\d|3[01])((0[1-9])|(1[0-2]))[0-9]{2}(\Q-\E)?[0-9]{4}$");
+            var error = new ErrorHandler.ErrorHandler();
 
             if (!ssnCprMatch.Success)
             {
-                return new LoanValidationError { ErrorMessage = string.Format("Invalid ssn : {0}", ssn) };
+                error.ErrorMessage = string.Format("Invalid ssn : {0}", ssn);
             }
 
             if (creditScore < 300)
             {
-                return new LoanValidationError {ErrorMessage = string.Format("Credit score of {0} is too low", creditScore)};
+                error.ErrorMessage = string.Format("Credit score of {0} is too low", creditScore);
             }
 
             if (loanAmount >= 5000)
             {
-                return new LoanValidationError { ErrorMessage = string.Format("Minimum loan amount is 5000, you wanted to loan out : {0}", loanAmount) };
+                error.ErrorMessage = string.Format("Minimum loan amount is 5000, you wanted to loan out : {0}", loanAmount);
             }
 
             if (loanDuration < 30)
             {
-                return new LoanValidationError { ErrorMessage = string.Format("Minimum loan duration is 30 days, your duration was : {0}", loanDuration) };
+                error.ErrorMessage = string.Format("Minimum loan duration is 30 days, your duration was : {0}", loanDuration);
+            }
+
+            if (error.ErrorMessage.Length > 0)
+            {
+                return error;
             }
 
             var loanCalculator = new LoanCalculator();
 
-            return loanCalculator.CalculateLoan(ssn, creditScore, loanAmount, loadDuration);
+            return loanCalculator.CalculateLoan(ssn, creditScore, loanAmount, loanDuration);
         }
-    }
-
-    public class LoanValidationError
-    {
-        public String ErrorMessage { get; set; }
     }
 }
