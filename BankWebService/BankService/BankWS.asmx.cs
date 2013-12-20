@@ -27,7 +27,7 @@ namespace BankService
         public InterestRate LoanResponse()
         {
             var ssn = Convert.ToString(Context.Request["ssn"]);
-            var creditScore = Convert.ToInt32(Context.Request["ssn"]);
+            var creditScore = Convert.ToInt32(Context.Request["creditScore"]);
             var loanAmount = Convert.ToInt32(Context.Request["loanAmount"]);
             var loadDuration = Convert.ToInt32(Context.Request["loanDuration"]);
 
