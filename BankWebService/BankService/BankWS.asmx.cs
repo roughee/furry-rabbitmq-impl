@@ -18,6 +18,8 @@ namespace BankService
     [System.ComponentModel.ToolboxItem(false)]
     public class TestWebService : System.Web.Services.WebService
     {
+        private ErrorHandler.ErrorHandler errorHandler;
+
         [WebMethod]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost.com/LoanResponse",
         RequestNamespace = "http://localhost.com", ResponseNamespace = "http://localhost.com",
@@ -27,42 +29,53 @@ namespace BankService
         [OperationContract, WebInvoke(Method = "GET", UriTemplate = "LoanResponse?ssn={ssn}&creditScore={creditScore}&loanAmount={loanAmount}&loanDuration={loanDuration}")]
         public Object LoanResponse()
         {
-            var ssn = Convert.ToString(Context.Request["ssn"]);
-            var creditScore = Convert.ToInt32(Context.Request["creditScore"]);
-            var loanAmount = Convert.ToInt32(Context.Request["loanAmount"]);
-            var loanDuration = Convert.ToInt32(Context.Request["loanDuration"]);
-
-            var ssnCprMatch = Regex.Match(ssn, @"^(0[1-9]|[12]\d|3[01])((0[1-9])|(1[0-2]))[0-9]{2}(\Q-\E)?[0-9]{4}$");
-            var error = new ErrorHandler.ErrorHandler();
-
-            if (!ssnCprMatch.Success)
+            try
             {
-                error.ErrorMessage = string.Format("Invalid ssn : {0}; ", ssn);
-            }
+                var ssn = Convert.ToString(Context.Request["ssn"]);
+                var creditScore = Convert.ToInt32(Context.Request["creditScore"]);
+                var loanAmount = Convert.ToInt32(Context.Request["loanAmount"]);
+                var loanDuration = Convert.ToInt32(Context.Request["loanDuration"]);
 
-            if (creditScore < 300)
+                var ssnCprMatch = Regex.Match(ssn, @"^(0[1-9]|[12]\d|3[01])((0[1-9])|(1[0-2]))[0-9]{2}(\Q-\E)?[0-9]{4}$");
+                errorHandler = new ErrorHandler.ErrorHandler();
+
+                if (!ssnCprMatch.Success)
+                {
+                    errorHandler.ErrorMessage = string.Format("Invalid ssn : {0}; ", ssn);
+                }
+
+                if (creditScore < 300)
+                {
+                    errorHandler.ErrorMessage = string.Format("Credit score of {0} is too low; ", creditScore);
+                }
+
+                if (loanAmount >= 5000)
+                {
+                    errorHandler.ErrorMessage = string.Format("Minimum loan amount is 5000, you wanted to loan out : {0}; ",
+                                                       loanAmount);
+                }
+
+                if (loanDuration < 30)
+                {
+                    errorHandler.ErrorMessage = string.Format("Minimum loan duration is 30 days, your duration was : {0}; ",
+                                                       loanDuration);
+                }
+
+                if (errorHandler.ErrorMessage.Length > 0)
+                {
+                    return errorHandler;
+                }
+
+                var loanCalculator = new LoanCalculator();
+
+                return loanCalculator.CalculateLoan(ssn, creditScore, loanAmount, loanDuration);
+            }
+            catch (Exception ex)
             {
-                error.ErrorMessage = string.Format("Credit score of {0} is too low; ", creditScore);
+                errorHandler.ErrorMessage = ex.Message;
+                errorHandler.ErrorMessage = Environment.StackTrace;
+                return errorHandler;
             }
-
-            if (loanAmount >= 5000)
-            {
-                error.ErrorMessage = string.Format("Minimum loan amount is 5000, you wanted to loan out : {0}; ", loanAmount);
-            }
-
-            if (loanDuration < 30)
-            {
-                error.ErrorMessage = string.Format("Minimum loan duration is 30 days, your duration was : {0}; ", loanDuration);
-            }
-
-            if (error.ErrorMessage.Length > 0)
-            {
-                return error;
-            }
-
-            var loanCalculator = new LoanCalculator();
-
-            return loanCalculator.CalculateLoan(ssn, creditScore, loanAmount, loanDuration);
         }
     }
 }
